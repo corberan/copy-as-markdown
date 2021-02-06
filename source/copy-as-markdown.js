@@ -42,14 +42,16 @@ browser.browserAction.onClicked.addListener(() => {
 });
 
 // Add context menus for specific actions
-const contexts = ['image', 'link', 'selection'];
-for (const context of contexts) {
-	browser.contextMenus.create({
-		id: `cpy-as-md:${context}`,
-		title: `Copy ${context} as Markdown`,
-		contexts: [context]
-	});
-}
+chrome.runtime.onInstalled.addListener(() => {
+	const contexts = ['image', 'link', 'selection'];
+	for (const context of contexts) {
+		browser.contextMenus.create({
+			id: `cpy-as-md:${context}`,
+			title: `Copy ${context} as Markdown`,
+			contexts: [context]
+		});
+	}
+});
 
 // Listener for events from context menus
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
